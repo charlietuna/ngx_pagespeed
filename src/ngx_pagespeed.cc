@@ -1565,7 +1565,8 @@ CreateRequestContext::Response ps_create_request_context(
       r,
       cfg_s->server_context,
       net_instaweb::RequestContextPtr(new net_instaweb::NgxRequestContext(
-          cfg_s->server_context->thread_system()->NewMutex(), r)));
+          cfg_s->server_context->thread_system()->NewMutex(),
+          cfg_s->server_context->timer(), r)));
 
   // If null, that means use global options.
   net_instaweb::RewriteOptions* custom_options = NULL;
@@ -2293,7 +2294,8 @@ ngx_int_t ps_beacon_handler_helper(ngx_http_request_t* r,
       beacon_data,
       user_agent,
       net_instaweb::RequestContextPtr(new net_instaweb::NgxRequestContext(
-          cfg_s->server_context->thread_system()->NewMutex(), r)));
+          cfg_s->server_context->thread_system()->NewMutex(),
+          cfg_s->server_context->timer(), r)));
 
   // TODO(jefftk): figure out how to insert Content-Length:0 as a response
   // header so wget doesn't hang.
